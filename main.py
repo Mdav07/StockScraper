@@ -4,6 +4,7 @@ from operator import itemgetter
 import tkinter as tk
 from tkinter import ttk
 
+#Makes the window
 def gui(x):
     columns = ["Company","Stock Price", "Percent Gained"]
     root = tk.Tk()
@@ -16,7 +17,7 @@ def gui(x):
         tree.insert("",tk.END,values=row)
     tree.pack(expand=True,fill="both")
     root.mainloop()
-
+#Gets rid of any stock under 25 million market cap
 def checkMarketCap(text):
     if "M" in text:
         noM = text.replace("M","")
@@ -34,7 +35,8 @@ def price(price):
         return(float(price))
     else:
         return(float(price))
-
+        
+#Gets the webpages
 pages = []
 for number in range(1,7):
     start = 'https://www.centralcharts.com/en/price-list-ranking/'
@@ -42,6 +44,7 @@ for number in range(1,7):
     link = start + end + str(number)
     pages.append(link)
 
+#Gets the data from the website and adds it
 values = []
 for page in pages:
     web = requests.get(page)
@@ -63,6 +66,7 @@ for page in pages:
                 rowValues[7] = checkMarketCap(rowValues[7])
                 values.append(rowValues)
 
+#Sorts the list and then gets rid of excess values
 sorted(values,key=itemgetter(2))
 final = []
 for x in values:
@@ -71,5 +75,6 @@ for x in values:
     temp.append(x[1])
     temp.append(x[2])
     final.append(temp)
-
+    
+#Sends the list of lists to be fed into the window maker
 gui(final)
