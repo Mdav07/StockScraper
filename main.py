@@ -45,6 +45,13 @@ for number in range(1,8):
     link = start + end + str(number)
     pages.append(link)
 
+#Gets the ticker for the company
+def getTicker(name):
+    result = search(name)
+    if 'quotes' in result and result['quotes']:
+        return result['quotes'][0]['symbol']
+    return None
+
 #Gets the data from the website and adds it
 values = []
 for page in pages:
